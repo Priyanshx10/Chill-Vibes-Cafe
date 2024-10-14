@@ -1,7 +1,10 @@
+'use client'
+
 import Layout from '../../components/layout'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image"
+import { useState } from "react"
 
 const menuItems = {
   drinks: [
@@ -17,6 +20,22 @@ const menuItems = {
 }
 
 export default function MenuPage() {
+  const [cart, setCart] = useState([]);
+  
+  const addToCart = (item) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find(cartItem => cartItem.name === item.name);
+      if (existingItem) {
+        return prevCart.map(cartItem =>
+          cartItem.name === item.name
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      }
+      return [...prevCart, { ...item, quantity: 1 }];
+    });
+  };
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-16">
@@ -39,6 +58,11 @@ export default function MenuPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">{item.description}</p>
+                    <div className="flex items-center justify-between mt-4">
+                      <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
+                      <span>Qty:</span>
+                      <input type="number" min="1" defaultValue={1} className="w-16 border p-1 rounded"/>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -57,6 +81,11 @@ export default function MenuPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">{item.description}</p>
+                    <div className="flex items-center justify-between mt-4">
+                      <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
+                      <span>Qty:</span>
+                      <input type="number" min="1" defaultValue={1} className="w-16 border p-1 rounded"/>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
