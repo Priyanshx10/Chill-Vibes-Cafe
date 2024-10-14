@@ -20,6 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/events" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">Events</Link>
             <Link href="/about" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">About</Link>
             <Link href="/contact" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">Contact</Link>
+            <Link href="/checkout" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">Checkout</Link>
           </nav>
           <Button variant="outline" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -33,6 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Link href="/events" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">Events</Link>
               <Link href="/about" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">About</Link>
               <Link href="/contact" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">Contact</Link>
+              <Link href="/checkout" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">Checkout</Link>
             </nav>
           </div>
         )}

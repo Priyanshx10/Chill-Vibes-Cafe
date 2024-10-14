@@ -1,40 +1,56 @@
 'use client'
 
-import Layout from '../../components/layout'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Image from "next/image"
-import { useState } from "react"
+import Layout from '../../components/layout';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from "next/image";
+import { useCart } from '../../components/CartContent'; // Adjust the path accordingly
 
 const menuItems = {
   drinks: [
-    { name: "Serenity Blend", price: "$4.50", description: "Our signature blend, smooth with notes of chocolate and caramel", image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-1.2.1&auto=format&fit=crop&w=1337&q=80" },
-    { name: "Zen Cappuccino", price: "$5.25", description: "Espresso topped with velvety steamed milk and a touch of cinnamon", image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1335&q=80" },
-    { name: "Chilled Harmony Latte", price: "$5.75", description: "Cold brew coffee with your choice of milk over ice, sweetened with lavender syrup", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80" },
+    {
+      name: "Serenity Blend",
+      price: "$4.50",
+      description: "Our signature blend, smooth with notes of chocolate and caramel",
+      image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-1.2.1&auto=format&fit=crop&w=1337&q=80"
+    },
+    {
+      name: "Zen Cappuccino",
+      price: "$5.25",
+      description: "Espresso topped with velvety steamed milk and a touch of cinnamon",
+      image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1335&q=80"
+    },
+    {
+      name: "Chilled Harmony Latte",
+      price: "$5.75",
+      description: "Cold brew coffee with your choice of milk over ice, sweetened with lavender syrup",
+      image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80"
+    },
   ],
   food: [
-    { name: "Mindful Avocado Toast", price: "$9.50", description: "Smashed avocado on artisan sourdough with cherry tomatoes and microgreens", image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80" },
-    { name: "Tranquil Turkey Panini", price: "$11.75", description: "Roasted turkey with pesto, fresh mozzarella, and sun-dried tomatoes on ciabatta", image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80" },
-    { name: "Zen Garden Bowl", price: "$13.50", description: "Quinoa, roasted seasonal vegetables, avocado, and tahini dressing", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80" },
+    {
+      name: "Mindful Avocado Toast",
+      price: "$9.50",
+      description: "Smashed avocado on artisan sourdough with cherry tomatoes and microgreens",
+      image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80"
+    },
+    {
+      name: "Tranquil Turkey Panini",
+      price: "$11.75",
+      description: "Roasted turkey with pesto, fresh mozzarella, and sun-dried tomatoes on ciabatta",
+      image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80"
+    },
+    {
+      name: "Zen Garden Bowl",
+      price: "$13.50",
+      description: "Quinoa, roasted seasonal vegetables, avocado, and tahini dressing",
+      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1338&q=80"
+    },
   ],
-}
+};
 
 export default function MenuPage() {
-  const [cart, setCart] = useState([]);
-  
-  const addToCart = (item) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find(cartItem => cartItem.name === item.name);
-      if (existingItem) {
-        return prevCart.map(cartItem =>
-          cartItem.name === item.name
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        );
-      }
-      return [...prevCart, { ...item, quantity: 1 }];
-    });
-  };
+  const { addToCart } = useCart();
 
   return (
     <Layout>
@@ -58,11 +74,7 @@ export default function MenuPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">{item.description}</p>
-                    <div className="flex items-center justify-between mt-4">
-                      <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
-                      <span>Qty:</span>
-                      <input type="number" min="1" defaultValue={1} className="w-16 border p-1 rounded"/>
-                    </div>
+                    <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
                   </CardContent>
                 </Card>
               ))}
@@ -81,18 +93,20 @@ export default function MenuPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">{item.description}</p>
-                    <div className="flex items-center justify-between mt-4">
-                      <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
-                      <span>Qty:</span>
-                      <input type="number" min="1" defaultValue={1} className="w-16 border p-1 rounded"/>
-                    </div>
+                    <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
                   </CardContent>
                 </Card>
               ))}
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Proceed to Checkout Button */}
+        <div className="mt-8 text-center">
+          <a href="/checkout" className="bg-green-500 text-white px-6 py-2 rounded">Proceed to Checkout</a>
+        </div>
+
       </div>
     </Layout>
-  )
+  );
 }
