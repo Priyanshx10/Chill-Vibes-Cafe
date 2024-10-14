@@ -1,9 +1,11 @@
 'use client'
 
-import Layout from '../../components/layout'
+import Image from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Image from "next/image"
+import { Coffee, Clock, MapPin, Instagram, Facebook, Twitter } from "lucide-react"
 import { useState } from "react"
 
 const menuItems = {
@@ -37,62 +39,104 @@ export default function MenuPage() {
   };
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold text-center mb-12">Our Menu</h1>
-        <Tabs defaultValue="drinks" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-12">
-            <TabsTrigger value="drinks" className="text-lg">Drinks</TabsTrigger>
-            <TabsTrigger value="food" className="text-lg">Food</TabsTrigger>
-          </TabsList>
-          <TabsContent value="drinks">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {menuItems.drinks.map((item, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <Image src={item.image} alt={item.name} width={400} height={300} className="w-full h-48 object-cover" />
-                  <CardHeader>
-                    <CardTitle className="flex justify-between items-center">
-                      <span>{item.name}</span>
-                      <span className="text-blue-600">{item.price}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{item.description}</p>
-                    <div className="flex items-center justify-between mt-4">
-                      <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
-                      <span>Qty:</span>
-                      <input type="number" min="1" defaultValue={1} className="w-16 border p-1 rounded"/>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+    <div className="flex flex-col min-h-screen bg-stone-50">
+      <header className="sticky top-0 z-50 w-full border-b bg-stone-50/90 backdrop-blur supports-[backdrop-filter]:bg-stone-50/60">
+        <div className="container flex h-20 items-center">
+          <Link href="/" className="flex items-center space-x-6 ml-6">
+            <div className="relative w-10 h-10">
+              <Image
+                src="/logo.svg"
+                alt="Chill Vibes Cafe Logo"
+                layout="fill"
+                className="text-stone-800"
+              />
             </div>
-          </TabsContent>
-          <TabsContent value="food">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {menuItems.food.map((item, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <Image src={item.image} alt={item.name} width={400} height={300} className="w-full h-48 object-cover" />
-                  <CardHeader>
-                    <CardTitle className="flex justify-between items-center">
-                      <span>{item.name}</span>
-                      <span className="text-blue-600">{item.price}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{item.description}</p>
-                    <div className="flex items-center justify-between mt-4">
-                      <button onClick={() => addToCart(item)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
-                      <span>Qty:</span>
-                      <input type="number" min="1" defaultValue={1} className="w-16 border p-1 rounded"/>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="flex flex-col">
+              <span className="font-serif text-xl font-medium text-stone-800">Chill Vibes</span>
+              <span className="text-sm text-stone-600">Cafe & Roastery</span>
             </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </Layout>
+          </Link>
+          <nav className="ml-auto flex gap-6">
+            <Link href="/menu" className="text-sm font-medium text-stone-900 hover:text-stone-600 transition-colors">Menu</Link>
+            <Link href="/about" className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors">About</Link>
+            <Link href="/events" className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors">Events</Link>
+            <Link href="/contact" className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors">Contact</Link>
+          </nav>
+        </div>
+      </header>
+
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-16">
+          <h1 className="font-serif text-4xl text-center mb-12 text-stone-800">Our Menu</h1>
+          <Tabs defaultValue="drinks" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-12">
+              <TabsTrigger value="drinks" className="text-lg">Drinks</TabsTrigger>
+              <TabsTrigger value="food" className="text-lg">Food</TabsTrigger>
+            </TabsList>
+            <TabsContent value="drinks">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {menuItems.drinks.map((item, index) => (
+                  <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <Image src={item.image} alt={item.name} width={400} height={300} className="w-full h-48 object-cover" />
+                    <CardHeader>
+                      <CardTitle className="flex justify-between items-center">
+                        <span>{item.name}</span>
+                        <span className="text-amber-600">{item.price}</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-stone-600 mb-4">{item.description}</p>
+                      <Button onClick={() => addToCart(item)} className="w-full bg-stone-800 hover:bg-stone-700 text-white transition-colors">
+                        Add to Cart
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+            <TabsContent value="food">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {menuItems.food.map((item, index) => (
+                  <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <Image src={item.image} alt={item.name} width={400} height={300} className="w-full h-48 object-cover" />
+                    <CardHeader>
+                      <CardTitle className="flex justify-between items-center">
+                        <span>{item.name}</span>
+                        <span className="text-amber-600">{item.price}</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-stone-600 mb-4">{item.description}</p>
+                      <Button onClick={() => addToCart(item)} className="w-full bg-stone-800 hover:bg-stone-700 text-white transition-colors">
+                        Add to Cart
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </main>
+
+      <footer className="bg-stone-800 text-stone-300 py-12">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-6 md:mb-0">
+              <h3 className="font-serif text-2xl mb-2 text-white">Chill Vibes Cafe</h3>
+              <p className="text-sm">Elevating your coffee experience, one cup at a time.</p>
+            </div>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:text-white transition-colors"><Instagram className="h-6 w-6" /></a>
+              <a href="#" className="hover:text-white transition-colors"><Facebook className="h-6 w-6" /></a>
+              <a href="#" className="hover:text-white transition-colors"><Twitter className="h-6 w-6" /></a>
+            </div>
+          </div>
+          <div className="mt-8 text-center text-sm">
+            © 2024 Chill Vibes Cafe. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </div>
   )
 }
